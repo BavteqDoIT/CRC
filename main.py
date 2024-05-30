@@ -31,4 +31,4 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 
 @app.get("/")
 async def root():
-    return {"message": "To jest test czy to odpowiedni obraz!"}
+    return {"message": "Jak widać udało się poprawnie skonfigurować całość!"}
