@@ -2,7 +2,10 @@ Budowa aplikacji lokalnie :
 Początkowo w bash’u musimy trafić do folderu w którym wcześniej stworzyliśmy wszystkie pliki potrzebne naszej aplikacji do działania, oraz plik dockerfile na podstawie którego możemy stworzyć obraz aplikacji.
 Następnie w bash’u wprowadzamy komendę (sudo docker build –t NAZWA_OBRAZU:TAG . ). Komenda ta na podstawie pliku dockerfile znajdującego się w katalogu w którym obecnie się znajdujemy (stąd kropka na końcu polecenia)
 stworzy obraz o nazwie oraz tag’u podanym w komendzie. Następnie po zbudowaniu obrazu przechodzimy do uruchomienia go lokalnie. Aby to zrobić do bash’a wprowadzamy polecenie (docker run NAZWA_OBRAZU:TAG). 
-Dzięki temu poleceniu nastąpi uruchomienie lokalne obrazu. Aby prześledzić zachowanie naszego obrazu możemy skorzystać z komendy (docker logs ID_OBRAZU). ID_OBRAZU otrzymujemy po uruchomieniu obrazu w bash’u. 
+Dzięki temu poleceniu nastąpi uruchomienie lokalne obrazu. Aby prześledzić zachowanie naszego obrazu możemy skorzystać z komendy (docker logs ID_OBRAZU). ID_OBRAZU otrzymujemy po uruchomieniu obrazu w bash’u.
+Jeśli chodzi o bazę danych to wybór padł na PostgreSQL. Aby zainstalować PostgreSQL'a do basha należy początkowo wprowadzić polecenie (sudo apt update), a następnie (sudo apt install postgresql).
+Aby utworzyć bazę danych musimy skorzystać z polecenia (sudo -u postgres createdb nazwa_bazy_danych). Aby stworzyć użytkownika, z odpowiednio nadanymi uprawnieniami musimy skorzystać z komendy (sudo -u postgres createuser --createdb --superuser --createrole nazwa_uzytkownika). Następnie aby stworzyć schemat potrzebujemy skorzystać z tej komendy (psql -U nazwa_uzytkownika -d nazwa_bazy_danych -c "CREATE SCHEMA nazwa_schematu AUTHORIZATION nazwa_uzytkownika;")
+
 
 
 Uruchomienie aplikacji w chmurze (Azure Microsoft): 
@@ -22,7 +25,9 @@ Gdy już otagujemy obraz w odpowiedni sposób to przystępujemy do pushowania ob
 Aby sprawdzić czy wszystko dobrze zrobiliśmy możemy przejść do zakładki repozytoria w rejestrze kontenerów, ponieważ to tam będzie widoczny nasz obraz. 
 
 4.Konfiguracja App Services 
-Tutaj konfigurujemy naszą aplikację. W naszym przypadku korzystaliśmy z aplikacji internetowej. Istotne jest to aby stworzyć ją na podstawie ówcześnie stworzonej grupy zasobów oraz Rejestru Kontenerów. 
+Tutaj konfigurujemy naszą aplikację. W naszym przypadku korzystaliśmy z aplikacji internetowej. Istotne jest to aby stworzyć ją na podstawie ówcześnie stworzonej grupy zasobów oraz Rejestru Kontenerów. Aby skorzystać z obrazu który stworzyliśmy musimy w opcji publikuj wybrać opcję container. Dzięki temu  w następnych krokach w zakładce Container wybieramy Rejestr Kontenerów. Tam widzimy obraz, który spushowaliśmy.
+Jeśli w późniejszym czasie będziemy chcieli skorzystać z innej wersji tego samego obrazu, ponieważ coś chcieliśmy zaktualizować, to istnieje taka opcja. Wystarczy tylko w tagach obrazu wybrać ten z którym 
+spushowaliśmy najnowszą wersję.
 Resztę aplikacji konfigurujemy według naszych potrzeb. 
 
 5.Stworzenie i konfiguracja Serwera Bazy Danych. 
